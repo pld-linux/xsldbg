@@ -1,0 +1,14 @@
+diff -ur xsldbg-2.1.8/src/libxsldbg/Makefile.am xsldbg-2.1.8-/src/libxsldbg/Makefile.am
+--- xsldbg-2.1.8/src/libxsldbg/Makefile.am	Fri Apr  5 20:28:54 2002
++++ xsldbg-2.1.8-/src/libxsldbg/Makefile.am	Sat Apr 20 15:42:41 2002
+@@ -110,8 +110,8 @@
+ lib_LTLIBRARIES = libxsldbg.la
+ 
+ install-exec-hook:
+-	if test ! -d $(prefix)/include/libxsldbg ; then  $(mkinstalldirs) $(prefix)/include/libxsldbg ; fi
+-	$(INSTALL_DATA) $(noinst_HEADERS) $(prefix)/include/libxsldbg
++	if test ! -d $(DESTDIR)$(prefix)/include/libxsldbg ; then  $(mkinstalldirs) $(DESTDIR)$(prefix)/include/libxsldbg ; fi
++	$(INSTALL_DATA) $(noinst_HEADERS) $(DESTDIR)$(prefix)/include/libxsldbg
+ 
+ clean:
+ 	rm -f *.o
