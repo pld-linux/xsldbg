@@ -16,7 +16,7 @@ BuildRequires:	automake
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	libtool
 BuildRequires:	libxslt-devel
-BuildRequires:	perl
+BuildRequires:	perl-base
 BuildRequires:	readline-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
