@@ -6,6 +6,7 @@ Release:	1
 License:	GPL
 Group:		Development/Debuggers
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+# Source0-md5:	f9a4a5b834d874afacf35b15cc17ccb1
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-no-static.patch
 Patch2:		%{name}-docpath.patch
