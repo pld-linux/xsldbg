@@ -5,7 +5,7 @@ Version:	2.1.8
 Release:	1
 License:	GPL
 Group:		Development/Debuggers
-Source0:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-no-static.patch
 Patch2:		%{name}-docpath.patch
@@ -15,8 +15,8 @@ BuildRequires:	automake
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	libtool
 BuildRequires:	libxslt-devel
-BuildRequires:	readline-devel
 BuildRequires:	perl
+BuildRequires:	readline-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
