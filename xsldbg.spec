@@ -13,6 +13,7 @@ URL:		http://xsldbg.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	docbook-dtd412-xml
+BuildRequires:	libtool
 BuildRequires:	libxslt-devel
 BuildRequires:	readline-devel
 BuildRequires:	perl
@@ -71,7 +72,7 @@ chcesz pisaæ nak³adki na %{name}.
 %build
 rm -f missing
 %{__libtoolize}
-aclocal
+%{__aclocal}
 autoupdate
 %{__automake}
 %{__autoconf}
@@ -90,8 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C src install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-gzip -9nf README AUTHORS ChangeLog TODO
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -100,7 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz docs/en/plain/index.html docs/en/xsldoc.{dtd,xml,xsl}
+%doc README AUTHORS ChangeLog TODO
+%doc docs/en/plain/index.html docs/en/xsldoc.{dtd,xml,xsl}
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %attr(755,root,root) %{_bindir}/*
 
