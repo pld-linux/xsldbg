@@ -10,12 +10,12 @@ Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-no-static.patch
 Patch2:		%{name}-docpath.patch
 URL:		http://xsldbg.sourceforge.net/
-BuildRequires:	libxslt-devel
-BuildRequires:	readline-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	perl
 BuildRequires:	docbook-dtd412-xml
+BuildRequires:	libxslt-devel
+BuildRequires:	readline-devel
+BuildRequires:	perl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -25,6 +25,14 @@ XSLT stylesheets.
 It has three major modes of execution of stylesheets: run the whole
 stylesheet; step to next xsl instruction; continue until next break point
 is found, or stylesheet has restarted.
+
+%description -l pl
+xsldbg jest odpluskwiaczem z interfejsem podobnym do gdb, ale s³u¿±cym
+do odpluskwiania styli XSLT.
+
+Ma trzy podstawowe tryby wykonywania styli: uruchomienie ca³o¶ci; krok
+do nastêpnej instrukcji xsl; kontynuacja do nastêpnego punktu stopu
+lub restartu stylu.
 
 %package devel
 Summary:	Headers for %{name}
