@@ -23,8 +23,8 @@ xsldbg is debugger with interface similar to gdb, but used to debug
 XSLT stylesheets.
 
 It has three major modes of execution of stylesheets: run the whole
-stylesheet; step to next xsl instruction; continue until next break point
-is found, or stylesheet has restarted.
+stylesheet; step to next xsl instruction; continue until next break
+point is found, or stylesheet has restarted.
 
 %description -l pl
 xsldbg jest odpluskwiaczem z interfejsem podobnym do gdb, ale s³u¿±cym
@@ -38,10 +38,11 @@ lub restartu stylu.
 Summary:	Headers for %{name}
 Summary(pl):	Pliki nag³ówkowe dla %{name}
 Group:		Development/Libraries
+Requires:	%{name} = %{version}
 
 %description devel
-Headers and libraries for %{name}. You don't need them, unless you want
-to develop frontends to %{name}.
+Headers and libraries for %{name}. You don't need them, unless you
+want to develop frontends to %{name}.
 
 %description devel -l pl
 Pliki nag³ówkowe dla %{name}. Nie potrzebujesz ich, chyba, ¿e chcesz
@@ -51,14 +52,15 @@ pisaæ nak³adki na %{name}.
 Summary:	Static libraries for %{name}
 Summary(pl):	Statyczne biblioteki dla %{name}
 Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}
 
 %description static
-Static libraries for %{name}. You don't need them, unless you want
-to develop frontends to %{name}.
+Static libraries for %{name}. You don't need them, unless you want to
+develop frontends to %{name}.
 
 %description static -l pl
-Statyczne biblioteki dla %{name}. Nie potrzebujesz ich, chyba, ¿e chcesz
-pisaæ nak³adki na %{name}.
+Statyczne biblioteki dla %{name}. Nie potrzebujesz ich, chyba, ¿e
+chcesz pisaæ nak³adki na %{name}.
 
 %prep
 %setup -q
@@ -79,14 +81,14 @@ autoconf
 	--disable-gnome-docs \
 	--enable-docs-macro \
 	--with-html-dir=%{_docdir}/%{name}-%{version}
-	
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} -C src install \
-	DESTDIR=$RPM_BUILD_ROOT 
+	DESTDIR=$RPM_BUILD_ROOT
 
 gzip -9nf README AUTHORS ChangeLog TODO
 
@@ -104,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/lib*.so
+%attr(755,root,root) %{_libdir}/lib*.so
 %{_includedir}/*
 
 %files static
