@@ -73,8 +73,8 @@ rm -f missing
 libtoolize --copy --force
 aclocal
 autoupdate
-automake -a -c -f
-autoconf
+%{__automake}
+%{__autoconf}
 # if anybody is intrested in KDE/GNOME docs, feel free to change it ;)
 %configure \
 	--disable-kde-docs \
