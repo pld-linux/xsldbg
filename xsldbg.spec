@@ -70,7 +70,7 @@ chcesz pisaæ nak³adki na %{name}.
 
 %build
 rm -f missing
-libtoolize --copy --force
+%{__libtoolize}
 aclocal
 autoupdate
 %{__automake}
