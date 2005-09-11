@@ -5,7 +5,7 @@ Version:	2.1.8
 Release:	1
 License:	GPL
 Group:		Development/Debuggers
-Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/xsldbg/%{name}-%{version}.tar.gz
 # Source0-md5:	f9a4a5b834d874afacf35b15cc17ccb1
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-no-static.patch
@@ -40,7 +40,7 @@ lub restartu stylu.
 Summary:	Headers for %{name}
 Summary(pl):	Pliki nag³ówkowe dla %{name}
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Headers and libraries for %{name}. You don't need them, unless you
@@ -54,7 +54,7 @@ pisaæ nak³adki na %{name}.
 Summary:	Static libraries for %{name}
 Summary(pl):	Statyczne biblioteki dla %{name}
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static libraries for %{name}. You don't need them, unless you want to
