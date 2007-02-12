@@ -1,5 +1,5 @@
 Summary:	XSLT stylesheets debugger
-Summary(pl):	Odpluskiwacz styli XSLT
+Summary(pl.UTF-8):   Odpluskiwacz styli XSLT
 Name:		xsldbg
 Version:	2.1.8
 Release:	1
@@ -28,17 +28,17 @@ It has three major modes of execution of stylesheets: run the whole
 stylesheet; step to next xsl instruction; continue until next break
 point is found, or stylesheet has restarted.
 
-%description -l pl
-xsldbg jest odpluskwiaczem z interfejsem podobnym do gdb, ale s³u¿±cym
+%description -l pl.UTF-8
+xsldbg jest odpluskwiaczem z interfejsem podobnym do gdb, ale sÅ‚uÅ¼Ä…cym
 do odpluskwiania styli XSLT.
 
-Ma trzy podstawowe tryby wykonywania styli: uruchomienie ca³o¶ci; krok
-do nastêpnej instrukcji xsl; kontynuacja do nastêpnego punktu stopu
+Ma trzy podstawowe tryby wykonywania styli: uruchomienie caÅ‚oÅ›ci; krok
+do nastÄ™pnej instrukcji xsl; kontynuacja do nastÄ™pnego punktu stopu
 lub restartu stylu.
 
 %package devel
 Summary:	Headers for %{name}
-Summary(pl):	Pliki nag³ówkowe dla %{name}
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe dla %{name}
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -46,13 +46,13 @@ Requires:	%{name} = %{version}-%{release}
 Headers and libraries for %{name}. You don't need them, unless you
 want to develop frontends to %{name}.
 
-%description devel -l pl
-Pliki nag³ówkowe dla %{name}. Nie potrzebujesz ich, chyba, ¿e chcesz
-pisaæ nak³adki na %{name}.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe dla %{name}. Nie potrzebujesz ich, chyba, Å¼e chcesz
+pisaÄ‡ nakÅ‚adki na %{name}.
 
 %package static
 Summary:	Static libraries for %{name}
-Summary(pl):	Statyczne biblioteki dla %{name}
+Summary(pl.UTF-8):   Statyczne biblioteki dla %{name}
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -60,9 +60,9 @@ Requires:	%{name}-devel = %{version}-%{release}
 Static libraries for %{name}. You don't need them, unless you want to
 develop frontends to %{name}.
 
-%description static -l pl
-Statyczne biblioteki dla %{name}. Nie potrzebujesz ich, chyba, ¿e
-chcesz pisaæ nak³adki na %{name}.
+%description static -l pl.UTF-8
+Statyczne biblioteki dla %{name}. Nie potrzebujesz ich, chyba, Å¼e
+chcesz pisaÄ‡ nakÅ‚adki na %{name}.
 
 %prep
 %setup -q
