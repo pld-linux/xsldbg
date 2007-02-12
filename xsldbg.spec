@@ -1,5 +1,5 @@
 Summary:	XSLT stylesheets debugger
-Summary(pl.UTF-8):   Odpluskiwacz styli XSLT
+Summary(pl.UTF-8):	Odpluskiwacz styli XSLT
 Name:		xsldbg
 Version:	2.1.8
 Release:	1
@@ -38,7 +38,7 @@ lub restartu stylu.
 
 %package devel
 Summary:	Headers for %{name}
-Summary(pl.UTF-8):   Pliki nagłówkowe dla %{name}
+Summary(pl.UTF-8):	Pliki nagłówkowe dla %{name}
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -52,7 +52,7 @@ pisać nakładki na %{name}.
 
 %package static
 Summary:	Static libraries for %{name}
-Summary(pl.UTF-8):   Statyczne biblioteki dla %{name}
+Summary(pl.UTF-8):	Statyczne biblioteki dla %{name}
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
