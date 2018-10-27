@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	kde		# install KDE Docbook documentation
+
 Summary:	XSLT stylesheets debugger
 Summary(pl.UTF-8):	Odpluskiwacz styli XSLT
 Name:		xsldbg
@@ -10,6 +14,7 @@ Source0:	http://downloads.sourceforge.net/xsldbg/%{name}-%{version}.tar.gz
 URL:		http://xsldbg.sourceforge.net/
 BuildRequires:	Qt5Core-devel
 BuildRequires:	docbook-dtd412-xml
+%{?with_kde:BuildRequires: kf5-kdoctools}
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel
 BuildRequires:	perl-base
@@ -37,6 +42,14 @@ Ma trzy podstawowe tryby wykonywania styli: uruchomienie całości; krok
 do następnej instrukcji xsl; kontynuacja do następnego punktu stopu
 lub restartu stylu.
 
+%package apidocs
+Summary:	xsldbg KDE Docbook
+Group:		Documentation
+BuildArch:	noarch
+
+%description apidocs
+xsldbg KDE Docbook.
+
 %prep
 %setup -q
 
@@ -49,14 +62,17 @@ qmake-qt5 \
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
+	KDEDOCS_ROOT=%{_kdedocdir} \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # fixup borked icons path
 install -d $RPM_BUILD_ROOT%{_iconsdir}
 mv $RPM_BUILD_ROOT{%{_prefix}/icons/*,%{_iconsdir}}
 
-# not packaged. doc in kde format
-rm -r $RPM_BUILD_ROOT%{_docdir}/HTML/en/xsldbg
+# KDEDOCS_ROOT override in makefile or qmake-qt5 does not work
+install -d $RPM_BUILD_ROOT%{_kdedocdir}
+mv $RPM_BUILD_ROOT{%{_docdir}/HTML/*,%{_kdedocdir}}
+
 rm -r $RPM_BUILD_ROOT%{_docdir}/packages/xsldbg
 
 %clean
@@ -77,3 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xsldbg.1*
 %{_desktopdir}/xsldbg.desktop
 %{_iconsdir}/hicolor/*/apps/xsldbg_source.png
+
+%if %{with kde}
+%files apidocs
+%defattr(644,root,root,755)
+%{_docdir}/kde/HTML/en/xsldbg/index.cache.bz2
+%endif
