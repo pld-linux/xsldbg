@@ -1,23 +1,24 @@
 Summary:	XSLT stylesheets debugger
 Summary(pl.UTF-8):	Odpluskiwacz styli XSLT
 Name:		xsldbg
-Version:	2.1.8
+Version:	4.8.0
 Release:	1
 License:	GPL
 Group:		Development/Debuggers
-Source0:	http://dl.sourceforge.net/xsldbg/%{name}-%{version}.tar.gz
-# Source0-md5:	f9a4a5b834d874afacf35b15cc17ccb1
-Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-no-static.patch
-Patch2:		%{name}-docpath.patch
+Source0:	http://downloads.sourceforge.net/xsldbg/%{name}-%{version}.tar.gz
+# Source0-md5:	e9bf58a2f81c19279ddc9d686a464902
 URL:		http://xsldbg.sourceforge.net/
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	Qt5Core-devel
 BuildRequires:	docbook-dtd412-xml
-BuildRequires:	libtool
+BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel
 BuildRequires:	perl-base
+BuildRequires:	qt5-qmake
 BuildRequires:	readline-devel
+BuildRequires:	rpmbuild(macros) >= 1.596
+Requires:	desktop-file-utils
+Requires:	gtk-update-icon-cache
+Requires:	hicolor-icon-theme
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -36,80 +37,43 @@ Ma trzy podstawowe tryby wykonywania styli: uruchomienie całości; krok
 do następnej instrukcji xsl; kontynuacja do następnego punktu stopu
 lub restartu stylu.
 
-%package devel
-Summary:	Headers for %{name}
-Summary(pl.UTF-8):	Pliki nagłówkowe dla %{name}
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description devel
-Headers and libraries for %{name}. You don't need them, unless you
-want to develop frontends to %{name}.
-
-%description devel -l pl.UTF-8
-Pliki nagłówkowe dla %{name}. Nie potrzebujesz ich, chyba, że chcesz
-pisać nakładki na %{name}.
-
-%package static
-Summary:	Static libraries for %{name}
-Summary(pl.UTF-8):	Statyczne biblioteki dla %{name}
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-Static libraries for %{name}. You don't need them, unless you want to
-develop frontends to %{name}.
-
-%description static -l pl.UTF-8
-Statyczne biblioteki dla %{name}. Nie potrzebujesz ich, chyba, że
-chcesz pisać nakładki na %{name}.
-
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
-rm -f missing
-%{__libtoolize}
-%{__aclocal}
-autoupdate
-%{__automake}
-%{__autoconf}
-# if anybody is intrested in KDE/GNOME docs, feel free to change it ;)
-%configure \
-	--disable-kde-docs \
-	--disable-gnome-docs \
-	--enable-docs-macro \
-	--with-html-dir=%{_docdir}/%{name}-%{version}
-
+qmake-qt5 \
+	QMAKE_EXTRAS="CONFIG+=xsldbg_shortcut" \
+	-r xsldbg.pro
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%{__make} install \
+	INSTALL_ROOT=$RPM_BUILD_ROOT
 
-%{__make} -C src install \
-	DESTDIR=$RPM_BUILD_ROOT
+# fixup borked icons path
+install -d $RPM_BUILD_ROOT%{_iconsdir}
+mv $RPM_BUILD_ROOT{%{_prefix}/icons/*,%{_iconsdir}}
+
+# not packaged. doc in kde format
+rm -r $RPM_BUILD_ROOT%{_docdir}/HTML/en/xsldbg
+rm -r $RPM_BUILD_ROOT%{_docdir}/packages/xsldbg
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post
+%update_desktop_database
+%update_icon_cache hicolor
+
+%postun
+%update_desktop_database
+%update_icon_cache hicolor
 
 %files
 %defattr(644,root,root,755)
-%doc README AUTHORS ChangeLog TODO
-%doc docs/en/plain/index.html docs/en/xsldoc.{dtd,xml,xsl}
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
-%attr(755,root,root) %{_bindir}/*
-
-%files devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/lib*.so
-%{_includedir}/*
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%doc README.md AUTHORS ChangeLog TODO
+%attr(755,root,root) %{_bindir}/xsldbg
+%{_mandir}/man1/xsldbg.1*
+%{_desktopdir}/xsldbg.desktop
+%{_iconsdir}/hicolor/*/apps/xsldbg_source.png
