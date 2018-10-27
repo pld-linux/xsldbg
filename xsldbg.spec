@@ -15,6 +15,7 @@ URL:		http://xsldbg.sourceforge.net/
 BuildRequires:	Qt5Core-devel
 BuildRequires:	docbook-dtd412-xml
 %{?with_kde:BuildRequires: kf5-kdoctools}
+BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel
 BuildRequires:	perl-base
