@@ -14,6 +14,7 @@ Source0:	http://downloads.sourceforge.net/xsldbg/%{name}-%{version}.tar.gz
 URL:		http://xsldbg.sourceforge.net/
 BuildRequires:	Qt5Core-devel
 BuildRequires:	docbook-dtd412-xml
+BuildRequires:	docbook-style-xsl
 %{?with_kde:BuildRequires: kf5-kdoctools}
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel
