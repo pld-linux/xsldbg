@@ -1,86 +1,108 @@
-%define name xsldbg
-%define version 4.8.1
-%define release 1
-%define prefix /usr
-%define builddir $RPM_BUILD_DIR/%{name}-%{version}
-%define fileList %{builddir}/filelist
+#
+# Conditional build:
+%bcond_without	kde		# install KDE Docbook documentation
 
-Summary: XSLT debugging/execution at console
-Name: %{name}
-Version: %{version}
-Release: %{release}
-Prefix: %{prefix}
-Group: Development/Debuggers
-License: GPLv2+
-Distribution: Any GCC 3.2 based
-Vendor: Keith Isdale <keithisdale@gmail.com>
-Packager: Keith Isdale <keithisdale@gmail.com>
-Source: %{name}-%{version}.tar.gz
-URL: http://xsldbg.sourceforge.net/
-BuildRequires: gcc, make, libxslt-devel, libxml2-devel, libxslt, libxml2, Qt5Core-devel, qt5-qmake
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Summary:	XSLT stylesheets debugger
+Summary(pl.UTF-8):	Odpluskiwacz styli XSLT
+Name:		xsldbg
+Version:	4.8.1
+Release:	1
+License:	GPL
+Group:		Development/Debuggers
+Source0:	http://downloads.sourceforge.net/xsldbg/%{name}-%{version}.tar.gz
+# Source0-md5:	e9bf58a2f81c19279ddc9d686a464902
+URL:		http://xsldbg.sourceforge.net/
+BuildRequires:	Qt5Core-devel
+BuildRequires:	docbook-dtd412-xml
+BuildRequires:	docbook-dtd45-xml
+BuildRequires:	docbook-style-xsl
+%{?with_kde:BuildRequires: kf5-kdoctools}
+BuildRequires:	libstdc++-devel
+BuildRequires:	libxml2-devel
+BuildRequires:	libxslt-devel
+BuildRequires:	perl-base
+BuildRequires:	qt5-qmake
+BuildRequires:	readline-devel
+BuildRequires:	rpmbuild(macros) >= 1.596
+Requires:	desktop-file-utils
+Requires:	gtk-update-icon-cache
+Requires:	hicolor-icon-theme
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-A console tool to debug stylesheets(the eXtensible Stylesheet Language)
-that has commands similar to the Unix/Linux debugger gdb.
-It has three major modes of execution of stylesheets.
-   o Run the whole stylesheet
-   o Step to the next XSLT instruction
-   o Continue until next break point is found, or the stylesheet has restarted
+xsldbg is debugger with interface similar to gdb, but used to debug
+XSLT stylesheets.
+
+It has three major modes of execution of stylesheets: run the whole
+stylesheet; step to next xsl instruction; continue until next break
+point is found, or stylesheet has restarted.
+
+%description -l pl.UTF-8
+xsldbg jest odpluskwiaczem z interfejsem podobnym do gdb, ale służącym
+do odpluskwiania styli XSLT.
+
+Ma trzy podstawowe tryby wykonywania styli: uruchomienie całości; krok
+do następnej instrukcji xsl; kontynuacja do następnego punktu stopu
+lub restartu stylu.
+
+%package apidocs
+Summary:	xsldbg KDE Docbook
+Group:		Documentation
+BuildArch:	noarch
+
+%description apidocs
+xsldbg KDE Docbook.
 
 %prep
-rm -rf $RPM_BUILD_ROOT
-rm -rf %{builddir}
-
 %setup -q
 
 %build
-echo "File list is %{fileList}"
-echo "%{prefix}/bin/xsldbg" > %{fileList}
-echo "%{prefix}/share/man/man1/xsldbg.1.gz" >> %{fileList}
-echo "%{prefix}/share/doc/xsldbg" >> %{fileList}
-QMAKE_EXTRAS=
-if [ -d "%{prefix}/share/icons/hicolor" ]; then
-   echo "Packaging xsldbg destktop shortcuts"
-   QMAKE_EXTRAS="CONFIG+=xsldbg_shortcut"
-   echo "%{prefix}/share/icons/hicolor/22x22/apps/xsldbg_source.png" >> %{fileList}
-   echo "%{prefix}/share/icons/hicolor/128x128/apps/xsldbg_source.png" >> %{fileList}
-   echo "%{prefix}/share/icons/hicolor/256x256/apps/xsldbg_source.png" >> %{fileList}
-   echo "%{prefix}/share/icons/hicolor/512x512/apps/xsldbg_source.png" >> %{fileList}
-   echo "%{prefix}/share/applications/xsldbg.desktop" >> %{fileList} 
-fi
-
-if [ -d "%{prefix}/share/doc/HTML/en" ]; then
-   echo "Packaging KDE style documentation"
-   QMAKE_EXTRAS="${QMAKE_EXTRAS} CONFIG+=xsdbg_kde_docs"
-   echo "%{prefix}/share/doc/HTML/en/xsldbg" >> %{fileList}
-fi
-
-qmake-qt5 ${QMAKE_EXTRAS} -r xsldbg.pro
-make
+qmake-qt5 \
+	"CONFIG+=xsldbg_shortcut" \
+	ICONS_DIR="%{_iconsdir}" \
+	DOCS_ROOT="%{_docdir}/xsldbg" \
+	KDEDOCS_ROOT="%{_kdedocdir}" \
+	-r xsldbg.pro
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-INSTALL_ROOT=$RPM_BUILD_ROOT make install
-
-cd $RPM_BUILD_ROOT
-# compress the xsldbg manpage before file list is generated
-gzip ./%{prefix}/share/man/man1/xsldbg.1
-
-#echo "Sleeping for a minute to ensure that the timestamp in index.cashe.bz2 is correct"
-#sleep 60
-#touch ./%{kdeprefix}/share/doc/HTML/en/xsldbg/index.cache.bz2
+%{__make} install \
+	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-rm -rf %{builddir}
 
-%files -f filelist
-%doc COPYING
+%post
+%update_desktop_database
+%update_icon_cache hicolor
+
+%postun
+%update_desktop_database
+%update_icon_cache hicolor
+
+%files
+%defattr(644,root,root,755)
+%doc README.md AUTHORS ChangeLog TODO
+%{_docdir}/xsldbg
+
+
+%attr(755,root,root) %{_bindir}/xsldbg
+%{_mandir}/man1/xsldbg.1*
+%if %{with kde}
+%{_desktopdir}/xsldbg.desktop
+%{_iconsdir}/hicolor/*/apps/xsldbg_source.png
+%endif
+
+%if %{with kde}
+%files apidocs
+%defattr(644,root,root,755)
+%{_kdedocdir}/en/xsldbg/index.cache.bz2
+%endif
 
 %changelog
-* Sat Oct 27 2018 Keith Isdale <keithisdale@gmail.com> - 4.8.1-1
-- Build fixes for PLD-Linux included moving docs to /usr/share/docs/
+* Sun Oct 28 2018 Keith Isdale <keithisdale@gmail.com> - 4.8.1-1
+- Replace spec file based on one created by PLD Linux contributor
+- Build fixes for PLD-Linux included fixing install paths for docs and icons
 * Sat Sep 08 2018 Keith Isdale <keithisdale@gmail.com> - 4.7.0-1
 - Initial RPM release
-
