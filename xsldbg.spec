@@ -100,5 +100,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with kde}
 %files apidocs
 %defattr(644,root,root,755)
-%{_docdir}/kde/HTML/en/xsldbg/index.cache.bz2
+%{_kdedocdir}/en/xsldbg/index.cache.bz2
 %endif
