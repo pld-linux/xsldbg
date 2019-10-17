@@ -6,7 +6,7 @@ Summary:	XSLT stylesheets debugger
 Summary(pl.UTF-8):	Odpluskiwacz styli XSLT
 Name:		xsldbg
 Version:	4.8.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		Development/Debuggers
 Source0:	http://downloads.sourceforge.net/xsldbg/%{name}-%{version}.tar.gz
